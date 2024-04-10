@@ -1,0 +1,3 @@
+sqlalchemy~=2.0.28
+flask~=2.2.5
+pandas~=1.3.5
