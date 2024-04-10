@@ -1,9 +1,11 @@
-from flask import request
+from flask import request, Blueprint
 from sqlalchemy import text
 from ..DataAnalyse.SQLSession import get_session, toJSON, toDataFrame
-from . import management_blue
+
+# 创建路由蓝图
+question_manage_blue = Blueprint('question_manage', __name__)
 
 
-@management_blue.route('/question_manage')
+@question_manage_blue.route('/question_manage')
 def question_manage():
-    pass
+    return "Hello World!"

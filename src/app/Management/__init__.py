@@ -1,5 +1,3 @@
-from flask import Blueprint
-
-# 创建路由蓝图
-management_blue = Blueprint('management', __name__)
+from .ClassManage import class_manage_blue
+from .QuestionManage import question_manage_blue
 

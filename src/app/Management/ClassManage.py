@@ -1,11 +1,13 @@
-from flask import request
+from flask import request, Blueprint
 from sqlalchemy import text
 from ..DataAnalyse.SQLSession import get_session, toJSON, toDataFrame
 from ..DB_models import Students
-from . import management_blue
+
+# 创建路由蓝图
+class_manage_blue = Blueprint('class_manage', __name__)
 
 
-@management_blue.route('/class_manage')
+@class_manage_blue.route('/class_manage')
 def class_manage():
     # 查询学生
     if request.method == 'GET':
@@ -91,6 +93,7 @@ def get_classes_by_teacher(teacher_id):
         json_res = toJSON(res)
         return json_res
 
+
 # 从数据库中删除指定学生
 def delete_student(student_id):
     with get_session() as session:
@@ -100,6 +103,7 @@ def delete_student(student_id):
             session.commit()
         else:
             raise ValueError("Student not found")
+
 
 # 更新学生信息
 def update_student_info(data):
