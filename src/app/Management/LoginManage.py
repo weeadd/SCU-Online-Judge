@@ -1,6 +1,6 @@
 from flask import request, Blueprint, jsonify
 
-from ..DB_models import Students
+from ..DB_models.models import Students
 from ..DB_connect.SQLSession import get_session
 
 # 创建路由蓝图

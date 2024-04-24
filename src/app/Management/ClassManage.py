@@ -2,7 +2,7 @@ from flask import request, Blueprint
 from sqlalchemy import text
 
 from ..DB_connect.SQLSession import get_session, toJSON
-from ..DB_models import Students
+from ..DB_models.models import Students
 
 # 创建路由蓝图
 class_manage_blue = Blueprint('class_manage', __name__)
