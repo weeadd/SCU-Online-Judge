@@ -1,5 +1,5 @@
 from src.config import config
-from src.app.DataAnalyse import db_init
+from src.app.DB_connect import db_init
 from src.app.Management import class_manage_blue
 
 from flask import Flask

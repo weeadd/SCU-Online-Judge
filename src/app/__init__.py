@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_cors import CORS
-from .DataAnalyse import db_init
-from .Management import class_manage_blue,question_manage_blue
+
+from .DB_connect import db_init
+from .Management import class_manage_blue, question_manage_blue
 from .QuestionBank import questionbank_blue
+
 
 def create_app(config):
     app = Flask(__name__)
@@ -12,6 +14,3 @@ def create_app(config):
     app.register_blueprint(question_manage_blue, url_prefix='/management')
 
     return app
-
-
-

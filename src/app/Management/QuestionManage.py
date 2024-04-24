@@ -1,6 +1,6 @@
 from flask import request, Blueprint
 from sqlalchemy import text
-from ..DataAnalyse.SQLSession import get_session, toJSON, toDataFrame
+from ..DB_connect.SQLSession import get_session, toJSON, toDataFrame
 from ..DB_models.Questions import Questions
 
 # 创建路由蓝图

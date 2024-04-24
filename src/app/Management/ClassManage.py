@@ -1,10 +1,16 @@
 from flask import request, Blueprint
 from sqlalchemy import text
-from ..DataAnalyse.SQLSession import get_session, toJSON, toDataFrame
+
+from ..DB_connect.SQLSession import get_session, toJSON
 from ..DB_models import Students
 
 # 创建路由蓝图
 class_manage_blue = Blueprint('class_manage', __name__)
+
+
+@class_manage_blue.route('/')
+def A():
+    return get_all_students()
 
 
 @class_manage_blue.route('/class_manage')

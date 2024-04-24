@@ -1,7 +1,7 @@
 from flask import request, Blueprint, jsonify
 
 from ..DB_models import Students
-from ..DataAnalyse.SQLSession import get_session
+from ..DB_connect.SQLSession import get_session
 
 # 创建路由蓝图
 login_manage_blue = Blueprint('login', __name__)
