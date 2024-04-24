@@ -1,6 +1,7 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, g
 from sqlalchemy import text
-from ..DB_connect.SQLSession import get_session, toJSON, toDataFrame
+
+from ..DB_connect.SQLSession import toJSON
 from ..DB_models.models import Question
 
 # 创建路由蓝图
@@ -47,7 +48,7 @@ def question_manage():
 
 
 def get_questions_by_id(question_id):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         query = text("select * from question where question_id = :question_id")
         res = session.execute(query, {"question_id": question_id})
         json_res = toJSON(res)
@@ -55,7 +56,7 @@ def get_questions_by_id(question_id):
 
 
 def get_classes_by_language(language):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         query = text("select * from question where language = :language")
         res = session.execute(query, {"language": language})
         json_res = toJSON(res)
@@ -64,7 +65,7 @@ def get_classes_by_language(language):
 
 # 更新题目信息
 def update_question_info(data):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         question_id = data.get('question_id')
         question = session.query(Question).filter_by(question_id=question_id).first()
         if question:
@@ -80,7 +81,7 @@ def update_question_info(data):
 
 # 将题目数据加入题库写入数据库
 def add_question_to_question_bank(data):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         # 从请求的数据中获取题目信息
         title = data.get('title')
         content = data.get('content')
@@ -100,7 +101,7 @@ def add_question_to_question_bank(data):
 
 # 从数据库中删除指定题目
 def delete_question(question_id):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         question = session.query(Question).filter_by(question_id=question_id).first()  # 查询要删除的学生
         if question:
             session.delete(question)  # 删除题目记录
