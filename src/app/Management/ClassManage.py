@@ -1,7 +1,7 @@
 from flask import request, Blueprint, g
 from sqlalchemy import text
 
-from ..DB_connect.SQLSession import toJSON
+from ..Utils import toJSON
 from ..DB_models.models import Students
 
 # 创建路由蓝图

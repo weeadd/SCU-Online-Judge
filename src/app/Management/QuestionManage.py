@@ -1,7 +1,6 @@
 from flask import request, Blueprint, g
 from sqlalchemy import text
-
-from ..DB_connect.SQLSession import toJSON
+from ..Utils import get_questions_by_id,get_all_questions,toJSON
 from ..DB_models.models import Question
 
 # 创建路由蓝图
@@ -15,12 +14,12 @@ def question_manage():
         question_id = request.args.get('question_id')  # 必选参数
         language = request.args.get('language')  # 可选参数
 
-        # 有题目id参数则返回question_id为该id的题目信息，无参数则返回语言为language的题目
+        # 有题目id参数则返回question_id为该id的题目信息，无参数则返回全部题目
         if question_id is not None and question_id != '':
             results = get_questions_by_id(question_id)
         else:
-            results = get_classes_by_language(language)
-        return results
+            results = get_all_questions()
+        return results.to_json(orient='records')
 
     # 更新题目信息
     elif request.method == 'PUT':  # 处理 PUT 请求
@@ -45,14 +44,6 @@ def question_manage():
             return "Question deleted successfully", 200
         else:
             return "Question ID is missing", 400
-
-
-def get_questions_by_id(question_id):
-    with g.sql_session.create_session() as session:
-        query = text("select * from question where question_id = :question_id")
-        res = session.execute(query, {"question_id": question_id})
-        json_res = toJSON(res)
-        return json_res
 
 
 def get_classes_by_language(language):
