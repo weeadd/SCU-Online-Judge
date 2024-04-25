@@ -1,10 +1,16 @@
-from flask import request, Blueprint
+from flask import request, Blueprint, g
 from sqlalchemy import text
-from ..DataAnalyse.SQLSession import get_session, toJSON, toDataFrame
-from ..DB_models import Students
+
+from ..DB_connect.SQLSession import toJSON
+from ..DB_models.models import Students
 
 # 创建路由蓝图
 class_manage_blue = Blueprint('class_manage', __name__)
+
+
+@class_manage_blue.route('/')
+def All():
+    return get_all_students()
 
 
 @class_manage_blue.route('/class_manage')
@@ -48,11 +54,10 @@ def class_manage():
 
 # 将学生数据加入班级写入数据库
 def add_student_to_class(data, class_id):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         # 从请求的数据中获取学生信息
         student_id = data.get('student_id')
         name = data.get('name')
-        username = data.get('username')
         password = data.get('password')
 
         # 创建一个新的 Students 对象，并添加到数据库会话中
@@ -60,7 +65,6 @@ def add_student_to_class(data, class_id):
             student_id=student_id,
             name=name,
             class_id=class_id,
-            username=username,
             password=password
         )
         session.add(student_record)
@@ -69,7 +73,7 @@ def add_student_to_class(data, class_id):
 
 # 查询所有学生数据
 def get_all_students():
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         query = text("select * from students")
         res = session.execute(query)
         json_res = toJSON(res)
@@ -78,7 +82,7 @@ def get_all_students():
 
 # 根据班级id查询学生数据
 def get_students_by_class(class_id):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         query = text("select * from students where class_id = :class_id")
         res = session.execute(query, {"class_id": class_id})
         json_res = toJSON(res)
@@ -87,7 +91,7 @@ def get_students_by_class(class_id):
 
 # 查询当前老师所教班级
 def get_classes_by_teacher(teacher_id):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         query = text("select * from classes where teacher_id = :teacher_id")
         res = session.execute(query, {"teacher_id": teacher_id})
         json_res = toJSON(res)
@@ -96,7 +100,7 @@ def get_classes_by_teacher(teacher_id):
 
 # 从数据库中删除指定学生
 def delete_student(student_id):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         student = session.query(Students).filter_by(student_id=student_id).first()  # 查询要删除的学生
         if student:
             session.delete(student)  # 删除学生记录
@@ -107,7 +111,7 @@ def delete_student(student_id):
 
 # 更新学生信息
 def update_student_info(data):
-    with get_session() as session:
+    with g.sql_session.create_session() as session:
         student_id = data.get('student_id')
         student = session.query(Students).filter_by(student_id=student_id).first()
         if student:

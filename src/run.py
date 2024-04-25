@@ -1,5 +1,5 @@
-from src.app import create_app
-from src.config import config
+from app import create_app
+from config import config
 
 if __name__ == "__main__":
     app = create_app(config)
