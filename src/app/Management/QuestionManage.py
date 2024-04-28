@@ -1,7 +1,7 @@
 from flask import request, Blueprint, g
 from sqlalchemy import text
 from ..Utils import get_questions_by_id,get_all_questions,toJSON
-from ..DB_models.models import Question
+from ..DB_models.models import Questions
 
 # 创建路由蓝图
 question_manage_blue = Blueprint('question_manage', __name__)
@@ -48,7 +48,7 @@ def question_manage():
 
 def get_classes_by_language(language):
     with g.sql_session.create_session() as session:
-        query = text("select * from question where language = :language")
+        query = text("select * from questions where language = :language")
         res = session.execute(query, {"language": language})
         json_res = toJSON(res)
         return json_res
@@ -58,7 +58,7 @@ def get_classes_by_language(language):
 def update_question_info(data):
     with g.sql_session.create_session() as session:
         question_id = data.get('question_id')
-        question = session.query(Question).filter_by(question_id=question_id).first()
+        question = session.query(Questions).filter_by(question_id=question_id).first()
         if question:
             # 更新学生信息
             question.title = data.get('title')
@@ -80,7 +80,7 @@ def add_question_to_question_bank(data):
         language = data.get('language')
 
         # 创建一个新的 Question 对象，并添加到数据库会话中
-        question_record = Question(
+        question_record = Questions(
             title=title,
             content=content,
             samples=samples,
@@ -93,7 +93,7 @@ def add_question_to_question_bank(data):
 # 从数据库中删除指定题目
 def delete_question(question_id):
     with g.sql_session.create_session() as session:
-        question = session.query(Question).filter_by(question_id=question_id).first()  # 查询要删除的学生
+        question = session.query(Questions).filter_by(question_id=question_id).first()  # 查询要删除的学生
         if question:
             session.delete(question)  # 删除题目记录
             session.commit()

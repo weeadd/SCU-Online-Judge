@@ -62,8 +62,8 @@ class Homeworks(Base):
     context: Mapped[Optional[str]] = mapped_column(Text)
 
 
-class Question(Base):
-    __tablename__ = 'question'
+class Questions(Base):
+    __tablename__ = 'questions'
 
     question_id: Mapped[int] = mapped_column(INTEGER(11), primary_key=True)
     title: Mapped[Optional[str]] = mapped_column(String(100))
