@@ -16,5 +16,6 @@ def create_app(config):
 
     app.register_blueprint(class_manage_blue, url_prefix='/management')
     app.register_blueprint(question_manage_blue, url_prefix='/management')
+    app.register_blueprint(questionbank_blue, url_prefix='/questionlist')
 
     return app
