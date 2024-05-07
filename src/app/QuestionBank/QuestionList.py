@@ -1,4 +1,4 @@
-from flask import request, Blueprint
+from flask import request, Blueprint,g
 
 from ..Utils import get_all_questions
 from .Filter import filter,sort
@@ -37,3 +37,9 @@ def get_list():
     json_res = questions_df.to_json(orient='records')
 
     return json_res
+
+# 创建动态路由，匹配题目名字作为子路由
+@questionbank_blue.route('/<question>')
+def question_detail(question):
+    # 在这里可以根据题目名字做相应的处理，比如返回特定的题目信息
+    return f"This is the detail page for {question}"
