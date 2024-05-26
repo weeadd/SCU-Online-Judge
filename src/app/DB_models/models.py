@@ -70,6 +70,7 @@ class Questions(Base):
     content: Mapped[Optional[str]] = mapped_column(Text)
     samples: Mapped[Optional[str]] = mapped_column(Text)
     language: Mapped[Optional[str]] = mapped_column(String(20))
+    is_public: Mapped[bool] = mapped_column()
 
 
 class Students(Base):

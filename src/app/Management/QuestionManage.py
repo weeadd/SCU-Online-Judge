@@ -1,6 +1,6 @@
 from flask import request, Blueprint, g
 from sqlalchemy import text
-from ..Utils import get_questions_by_id,get_all_questions,toJSON
+from ..Utils import get_question_by_id,get_all_questions,toJSON
 from ..DB_models.models import Questions
 
 # 创建路由蓝图
@@ -16,7 +16,7 @@ def question_manage():
 
         # 有题目id参数则返回question_id为该id的题目信息，无参数则返回全部题目
         if question_id is not None and question_id != '':
-            results = get_questions_by_id(question_id)
+            results = get_question_by_id(question_id)
         else:
             results = get_all_questions()
         return results.to_json(orient='records')
@@ -78,13 +78,15 @@ def add_question_to_question_bank(data):
         content = data.get('content')
         samples = data.get('samples')
         language = data.get('language')
+        is_public = data.get('is_public')
 
         # 创建一个新的 Question 对象，并添加到数据库会话中
         question_record = Questions(
             title=title,
             content=content,
             samples=samples,
-            language=language
+            language=language,
+            is_public=is_public
         )
         session.add(question_record)
         session.commit()

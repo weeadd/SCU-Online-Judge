@@ -4,7 +4,7 @@ from flask_cors import CORS
 from .DB_connect import SQLSession
 from .Management import class_manage_blue, question_manage_blue
 from .QuestionBank import questionbank_blue
-
+from .Judge import judge_blue
 
 def create_app(config):
     app = Flask(__name__)
@@ -17,5 +17,6 @@ def create_app(config):
     app.register_blueprint(class_manage_blue, url_prefix='/management')
     app.register_blueprint(question_manage_blue, url_prefix='/management')
     app.register_blueprint(questionbank_blue, url_prefix='/questionlist')
+    app.register_blueprint(judge_blue, url_prefix='/judge')
 
     return app
