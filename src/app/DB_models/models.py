@@ -78,7 +78,7 @@ class Students(Base):
 
     student_id: Mapped[str] = mapped_column(String(20), primary_key=True)
     name: Mapped[Optional[str]] = mapped_column(String(100))
-    class_id: Mapped[Optional[int]] = mapped_column(INTEGER(11))
+    class_id: Mapped[Optional[str]] = mapped_column(String(10))
     password: Mapped[Optional[str]] = mapped_column(String(20))
 
 
