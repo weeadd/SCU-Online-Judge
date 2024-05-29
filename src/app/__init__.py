@@ -2,9 +2,12 @@ from flask import Flask, g
 from flask_cors import CORS
 
 from .DB_connect import SQLSession
+from .Judge import judge_blue
+from .Management import class_manage_blue, question_manage_blue
 from .Management import class_manage_blue, question_manage_blue, homework_manage_blue, exam_manage_blue
 from .QuestionBank import questionbank_blue
-from .Judge import judge_blue
+from .SubmitRecord import submit_record_blue
+
 
 def create_app(config):
     app = Flask(__name__)
@@ -20,5 +23,6 @@ def create_app(config):
     app.register_blueprint(homework_manage_blue, url_prefix='/homework')
     app.register_blueprint(exam_manage_blue, url_prefix='/exam')
     app.register_blueprint(judge_blue, url_prefix='/judge')
+    app.register_blueprint(submit_record_blue, url_prefix='/submit_record')
 
     return app
