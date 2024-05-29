@@ -1,6 +1,6 @@
-from flask import request, Blueprint,g
+from flask import request, Blueprint, g, jsonify
 
-from ..Utils import get_all_questions
+from ..Utils import get_all_questions,get_question_by_id
 from .Filter import filter,sort
 
 # 创建路由蓝图
@@ -38,8 +38,28 @@ def get_list():
 
     return json_res
 
-# 创建动态路由，匹配题目名字作为子路由
-@questionbank_blue.route('/<question>')
-def question_detail(question):
-    # 在这里可以根据题目名字做相应的处理，比如返回特定的题目信息
-    return f"This is the detail page for {question}"
+# 创建动态路由，匹配题目id作为子路由
+@questionbank_blue.route('/<question_id>')
+def question_detail(question_id):
+    # 在这里可以根据题目id做相应的处理，比如返回特定的题目信息
+
+    df_res = get_question_by_id(question_id)
+
+    if df_res.empty:
+        return jsonify({"status": 404, "message": "题目未找到"}), 404
+    else:
+        # 重新命名 DataFrame 的列
+        df_res.rename(columns={
+            'question_id': 'pid',
+            'title': 'title',
+            'content': 'description',
+            'is_public': 'isPublic'
+        }, inplace=True)
+
+        # 将 isPublic 字段转换为布尔值
+        df_res['isPublic'] = df_res['isPublic'].astype(bool)
+
+        # 将 DataFrame 转换为字典
+        problem_info = df_res.to_dict(orient='records')[0]
+        print(problem_info)
+        return problem_info
