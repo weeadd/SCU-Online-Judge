@@ -1,3 +1,5 @@
+import datetime
+
 from flask import request, Blueprint, g
 from sqlalchemy import text
 from ..Utils import get_exam_by_id,get_all_exams,toJSON
@@ -18,7 +20,7 @@ def exam_manage():
             results = get_exam_by_id(exam_id)
         else:
             results = get_all_exams()
-        return results.to_json(orient='records')
+        return toJSON(results)
 
     # 更新考试信息
     elif request.method == 'PUT':  # 处理 PUT 请求
@@ -52,12 +54,16 @@ def update_exam_info(data):
         exam = session.query(Exams).filter_by(exam_id=exam_id).first()
         if exam:
             # 更新考试信息
-            exam.name = data.get('name')
-            exam.class_id = data.get('class_id')
-            exam.release_time = data.get('release_time')
-            exam.deadline = data.get('deadline')
-            exam.problem_ids = data.get('problem_ids')
-            exam.context = data.get('context')
+            if data.get("name"):
+                exam.name = data.get('name')
+            if data.get("class_id"):
+                exam.class_id = data.get('class_id')
+            if data.get("deadline"):
+                exam.deadline = data.get('deadline')
+            if data.get("problem_ids"):
+                exam.problem_ids = data.get('problem_ids')
+            if data.get("context"):
+                exam.context = data.get('context')
             session.commit()
         else:
             raise ValueError("Exam not found")
@@ -65,11 +71,13 @@ def update_exam_info(data):
 
 # 将考试数据写入数据库
 def add_exam(data):
+    current_time = datetime.datetime.now()
+    release_time = current_time.strftime('%Y-%m-%d %H:%M:%S')
     with g.sql_session.create_session() as session:
         # 从请求的数据中获取考试信息
         name = data.get('name')
         class_id = data.get('class_id')
-        release_time = data.get('release_time')
+        # release_time = data.get('release_time')
         deadline = data.get('deadline')
         problem_ids = data.get('problem_ids')
         context = data.get('context')

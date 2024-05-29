@@ -19,7 +19,7 @@ def homework_manage():
             results = get_homework_by_id(homework_id)
         else:
             results = get_all_homeworks()
-        return results.to_json(orient='records')
+        return results
 
     # 更新作业信息
     elif request.method == 'PUT':  # 处理 PUT 请求
