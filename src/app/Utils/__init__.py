@@ -1,2 +1,4 @@
 from .FormatConversion import toJSON,toDataFrame
 from .GetQuestions import get_all_questions,get_questions_by_id
+from .GetHomeworks import get_homework_by_id,get_all_homeworks,get_homework_by_class_id
+from .GetExams import get_exam_by_id,get_all_exams
