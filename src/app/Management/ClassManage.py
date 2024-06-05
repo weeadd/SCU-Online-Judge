@@ -3,13 +3,17 @@ from sqlalchemy import text
 
 from ..Utils import toJSON
 from ..DB_models.models import Students
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 # 创建路由蓝图
 class_manage_blue = Blueprint('class_manage', __name__)
 
 
 @class_manage_blue.route('/')
+@jwt_required()
 def All():
+    user_id = get_jwt_identity()
+    print(user_id)
     return get_all_students()
 
 
