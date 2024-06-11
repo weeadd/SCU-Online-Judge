@@ -8,6 +8,7 @@ from .Management import class_manage_blue, question_manage_blue
 from .Management import class_manage_blue, question_manage_blue, homework_manage_blue, exam_manage_blue
 from .QuestionBank import questionbank_blue
 from .SubmitRecord import submit_record_blue
+from .Homework import homework_blue
 from flask_jwt_extended import JWTManager
 
 
@@ -27,6 +28,7 @@ def create_app(config):
     app.register_blueprint(judge_blue, url_prefix='/judge')
     app.register_blueprint(submit_record_blue, url_prefix='/submit_record')
     app.register_blueprint(auth_blue, url_prefix='/auth')
+    app.register_blueprint(homework_blue, url_prefix='/student_homework')
 
     app.config['JWT_SECRET_KEY'] = 'lihua'  # 设置JWT的加密密钥
     app.config['JWT_ACCESS_TOKEN_EXPIRES'] = False  # 设置ACCESS_TOKEN的永不过期
