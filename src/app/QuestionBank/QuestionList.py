@@ -1,6 +1,6 @@
 from flask import request, Blueprint, g, jsonify
 
-from ..Utils import get_all_questions,get_question_by_id
+from ..Utils import get_all_questions,get_question_by_id,get_all_records,get_submission_stats
 from .Filter import filter,sort
 
 # 创建路由蓝图
@@ -15,6 +15,10 @@ def get_list():
     language_condition = request.args.get('language')
 
     questions_df = get_all_questions()
+    submission_stats_df = get_submission_stats()
+
+    # 合并数据帧
+    questions_df = questions_df.merge(submission_stats_df, on='question_id', how='left')
 
     # 根据题目进行模糊查询
     if query is not None and query != '':
