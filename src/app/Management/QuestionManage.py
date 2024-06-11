@@ -82,6 +82,7 @@ def add_question_to_question_bank(data):
 
         # 创建一个新的 Question 对象，并添加到数据库会话中
         question_record = Questions(
+            question_id=None,
             title=title,
             content=content,
             samples=samples,
