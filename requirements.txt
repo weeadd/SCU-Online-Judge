@@ -2,3 +2,4 @@ sqlalchemy
 flask
 paramiko
 pandas
+flask_jwt_extended

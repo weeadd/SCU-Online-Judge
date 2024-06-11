@@ -100,3 +100,27 @@ class Teachers(Base):
     teacher_id: Mapped[str] = mapped_column(String(20), primary_key=True)
     name: Mapped[Optional[str]] = mapped_column(String(20))
     password: Mapped[Optional[str]] = mapped_column(String(20))
+
+from sqlalchemy import Column, Integer, String, Text, Float, DateTime
+from sqlalchemy.ext.declarative import declarative_base
+
+Base = declarative_base()
+
+class SubmitRecords(Base):
+    __tablename__ = 'submit_records'
+
+    submission_id = Column(Integer, primary_key=True)
+    question_id = Column(Integer)
+    student_id = Column(String(20))
+    submitter = Column(String(20))
+    code = Column(Text)
+    memory = Column(String(10))
+    execution_time = Column(Float)
+    status = Column(String(20))
+    ast_status = Column(String(20))
+    ast_advice = Column(String(50))
+    output = Column(Text)
+    submit_time = Column(DateTime)
+
+    def __repr__(self):
+        return f"<SubmitRecords(submission_id={self.submission_id}, question_id={self.question_id}, student_id={self.student_id}, submitter={self.submitter}, code={self.code}, memory={self.memory}, execution_time={self.execution_time}, status={self.status},ast_status={self.ast_status} ast_analysis={self.ast_advice}, output={self.output}, submit_time={self.submit_time})>"
