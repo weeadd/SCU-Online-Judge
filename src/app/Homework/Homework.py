@@ -1,6 +1,6 @@
 from flask import request, Blueprint, g
 from sqlalchemy import text
-from ..Utils import get_homework_by_id,get_all_homeworks,get_homework_by_class_id,toJSON
+from ..Utils import get_homework_by_id_with_questionList,get_all_homeworks,get_homework_by_class_id,toJSON
 from ..DB_models.models import Homeworks,HomeworkSubmissions
 import datetime
 
@@ -18,7 +18,7 @@ def get_homework():
         results = get_homework_by_class_id(class_id)
     else:
         if homework_id is not None and homework_id != '':
-            results = get_all_homeworks()
+            results = get_homework_by_id_with_questionList(homework_id)
         else:
             return '参数错误'
     return toJSON(results)
