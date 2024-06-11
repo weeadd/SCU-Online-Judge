@@ -21,7 +21,8 @@ def get_homework():
             results = get_homework_by_id_with_questionList(homework_id)
         else:
             return '参数错误'
-    return toJSON(results)
+    # return toJSON(results)
+    return results
 
 
 @homework_blue.route('/get_homework_by_student_in_class')
