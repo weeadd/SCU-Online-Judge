@@ -6,7 +6,7 @@ from .FormatConversion import toDataFrame
 from . import toJSON
 
 
-def get_all_homeworks():
+def get_all_homeworks1():
     with g.sql_session.create_session() as session:
         query = text("select homework_id, name, problem_ids from homeworks")
         res = session.execute(query)
@@ -51,11 +51,14 @@ def get_all_homeworks():
         print(homework_data)
 
     return homework_data
-    # with g.sql_session.create_session() as session:
-    #     query = text("select * from homeworks")
-    #     res = session.execute(query)
-    #     json_res = toJSON(res)
-    #     return json_res
+
+
+def get_all_homeworks():
+    with g.sql_session.create_session() as session:
+        query = text("select * from homeworks")
+        res = session.execute(query)
+        json_res = toJSON(res)
+        return json_res
 
 
 def get_homework_by_id(homework_id):
