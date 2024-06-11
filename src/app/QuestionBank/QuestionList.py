@@ -52,16 +52,8 @@ def question_detail(question_id):
     if df_res.empty:
         return jsonify({"status": 404, "message": "题目未找到"}), 404
     else:
-        # 重新命名 DataFrame 的列
-        df_res.rename(columns={
-            'question_id': 'pid',
-            'title': 'title',
-            'content': 'description',
-            'is_public': 'isPublic'
-        }, inplace=True)
-
         # 将 isPublic 字段转换为布尔值
-        df_res['isPublic'] = df_res['isPublic'].astype(bool)
+        df_res['is_public'] = df_res['is_public'].astype(bool)
 
         # 将 DataFrame 转换为字典
         problem_info = df_res.to_dict(orient='records')[0]
