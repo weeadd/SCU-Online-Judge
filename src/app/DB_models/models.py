@@ -59,7 +59,7 @@ class Homeworks(Base):
     release_time: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime)
     deadline: Mapped[Optional[datetime.datetime]] = mapped_column(DateTime)
     problem_ids: Mapped[Optional[str]] = mapped_column(String(255))
-    context: Mapped[Optional[str]] = mapped_column(Text)
+    content: Mapped[Optional[str]] = mapped_column(Text)
 
 
 class Questions(Base):

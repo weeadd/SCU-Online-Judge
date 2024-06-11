@@ -61,8 +61,8 @@ def update_homework_info(data):
                 homework.deadline = data.get('deadline')
             if data.get('problem_ids'):
                 homework.problem_ids = data.get('problem_ids')
-            if data.get('context'):
-                homework.context = data.get('context')
+            if data.get('content'):
+                homework.content = data.get('content')
             session.commit()
         else:
             raise ValueError("Homework not found")
@@ -79,7 +79,7 @@ def add_homework(data):
         # release_time = data.get('release_time')
         deadline = data.get('deadline')
         problem_ids = data.get('problem_ids')
-        context = data.get('context')
+        content = data.get('content')
 
         # 创建一个新的 Homeworks 对象，并添加到数据库会话中
         homework_record = Homeworks(
@@ -88,7 +88,7 @@ def add_homework(data):
             release_time=release_time,
             deadline=deadline,
             problem_ids=problem_ids,
-            context=context,
+            content=content,
         )
         session.add(homework_record)
         session.commit()

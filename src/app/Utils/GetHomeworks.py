@@ -60,7 +60,7 @@ def get_all_homeworks():
 
 def get_homework_by_id(homework_id):
     with g.sql_session.create_session() as session:
-        query = text("select name, problem_ids, context from homeworks where homework_id = :homework_id")
+        query = text("select name, problem_ids, content from homeworks where homework_id = :homework_id")
         res = session.execute(query, {"homework_id": homework_id})
         json_res = toJSON(res)
         return json_res
@@ -68,7 +68,7 @@ def get_homework_by_id(homework_id):
 
 def get_homework_by_id_with_questionList(homework_id):
     with g.sql_session.create_session() as session:
-        query = text("select name, problem_ids, context from homeworks where homework_id = :homework_id")
+        query = text("select name, problem_ids, content from homeworks where homework_id = :homework_id")
         res = session.execute(query, {"homework_id": homework_id})
 
         json_res = toJSON(res)
