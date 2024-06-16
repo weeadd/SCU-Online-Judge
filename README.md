@@ -1,2 +1,2 @@
 # SCU-Online-Judge
-# Hello OJ!
+Online-Judge在线判题系统后端，持续开发中...
